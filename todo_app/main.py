@@ -7,7 +7,8 @@ def main():
     print('3.全てのタスク削除')
     print('4.一覧表示')
     print('5.タスクを保存する')
-    print('6.終了')
+    print('6.タスクファイルを読み込む')
+    print('0.終了')
 
     choice = input('選択してください：')
     
@@ -72,10 +73,22 @@ def save_task():
         return
     
     with open(r'D:\Study\Python\todo_app\tasks.txt', 'w', encoding='UTF-8') as f:
-        for i, task in enumerate(tasklist, start=1):
-            f.write(str(i) + ' : ' + task + ' \n')
+        for task in tasklist:
+            f.write(task + '\n')
 
     print('----- Save Task -----')
+
+def load_task():
+    try:
+        with open(r'D:\Study\Python\todo_app\tasks.txt', 'r', encoding='UTF-8') as f:
+            tasklist.clear()
+            for task in f:
+                tasklist.append(task.strip());
+
+        print('----- Load Task -----')        
+    except FileNotFoundError:
+        print('----- 保存されたタスクがありません -----')
+
 
 
 while True:
@@ -91,6 +104,8 @@ while True:
     elif choice == '5':
         save_task()
     elif choice == '6':
+        load_task()
+    elif choice == '0':
         close_app()
         break
     elif not choice.isdigit():
